@@ -19,6 +19,10 @@ RUN echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
 
 RUN ssh-keygen -A
 
+RUN mkdir /app
+
+RUN chown -R akash:akash /app
+
 USER akash
 
 RUN mkdir -p /home/akash/.ssh
