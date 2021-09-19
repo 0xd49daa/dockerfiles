@@ -1,0 +1,47 @@
+---
+version: "2.0"
+
+services:
+  omniflix:
+    image: selchenkov/omniflix:1.0.1
+    expose:
+      - port: 26656
+        to:
+          - global: true
+      - port: 2222
+        to:
+          - global: true
+    env:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - PUBLIC_KEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC728CxtrIQxTX1QQLRDWWAtBi7WzpueZJ8zJPqYjczGcmw0pI6s2yl7/Ntx9zPP9J+nzOMw1nGozhoCPp4vO9DsaezDCsQcEfzJ6TpJRYlR+1WgLQr1qbKh2K3uZReogEGjflpGDiwW44SD4pNJwy+t06+k4h8LkUme2Z0F7wdK9crvEfZyi3AjTPMfpzBytxBWIYwfv3R+59E5eYFrPE2UKJXZna0ODYxsi5a5NfvCec0vtSyPI0mftGDeJJMODca51azeIEeLPVKvpcBCpw2m1638YFgedZtKHjCDFvTlNyc0fNIpugscqYC7Fn/OFHKy+npsD/SHB/93Sd1zwPJaj89ddiEfveuwSQMi6SftkztD8unGReyzMoIt0QVrA2T+4UfdVTeXPPn0WUkEWJx5DIcZYrimT3wNEI2G4m8UluG4VN/loD6HvTD9B7B1ry3awQSoWJsJnvNz4k/acfRdhWlK9U6TscxELdB3W3t0bnSCF4WN8wMDAwUP3o6IWM= ledger@work
+      - SUDO_ACCESS=false
+
+profiles:
+  compute:
+    omniflix:
+      resources:
+        cpu:
+          units: 2
+        memory:
+          size: 4Gi
+        storage:
+          size: 50Gi
+  placement:
+    dcloud:
+      attributes:
+        datacenter: equinix-metal-ams1
+      signedBy:
+       anyOf:
+        - "akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63"      
+      pricing:
+        omniflix:
+          denom: uakt
+          amount: 1000
+
+deployment:
+  omniflix:
+    dcloud:
+      profile: omniflix
+      count: 1

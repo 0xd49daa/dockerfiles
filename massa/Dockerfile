@@ -24,6 +24,9 @@ WORKDIR /usr/src/myapp/massa/massa-client
 
 RUN cargo build --release
 
+RUN ls -la  /usr/src/myapp/massa/target/release/massa-node
+RUN ls -la  /usr/src/myapp/massa/target/release/massa-client
+
 FROM ghcr.io/linuxserver/openssh-server:latest
 
 RUN \
